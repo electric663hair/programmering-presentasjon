@@ -156,10 +156,25 @@ header p {
     margin-bottom: 15px;
 }
 
-#copyButton {
+#copy-bg {
     position: absolute;
     top: 5px;
+    left: 5px;
     right: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    border-bottom: solid #cacaca 1px;
+}
+
+#copy-bg > p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #4a9d7e;
+    font-weight: 500;
 }
 
 #task-extra-text {
@@ -172,6 +187,7 @@ header p {
 .text-view {
     background-color: #f8f8f8;
     padding: 1rem;
+    padding-top: 4rem;
     border-radius: 6px;
     min-height: 150px;
     font-family: 'Courier New', Courier, monospace;
@@ -272,10 +288,6 @@ textarea:focus {
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
-    .text-view {
-        padding-top: 3rem;
-    }
-
     .card-header {
         flex-direction: column;
         align-items: flex-start;
@@ -283,7 +295,7 @@ textarea:focus {
     }
     
     .btn {
-        width: calc(100% - 10px);
+        width: calc(50%);
         justify-content: center;
     }
     
