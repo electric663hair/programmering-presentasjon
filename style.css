@@ -191,8 +191,8 @@ header p {
     border-radius: 6px;
     min-height: 150px;
     font-family: 'Courier New', Courier, monospace;
-    white-space: pre-wrap;
-    word-break: break-word;
+    /* white-space: pre-wrap;
+    word-break: break-word; */
     font-size: 0.9rem;
     color: #333;
     border: 1px solid #eee;
@@ -200,6 +200,7 @@ header p {
     flex-direction: column;
     width: 100%;
     justify-content: start;
+    overflow-x: scroll;
 }
 
 /* Form styles */
@@ -213,6 +214,7 @@ textarea {
     font-size: 0.9rem;
     resize: none;
     margin-bottom: 1rem;
+    overflow-x: scroll;
 }
 
 textarea:focus {
