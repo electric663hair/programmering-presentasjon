@@ -134,13 +134,12 @@ textInput.addEventListener('blur', () => {
 function loadTask(taskID) {
     const extraText = document.querySelector("#task-extra-text");
     let taskInput = tasks[taskID][0];
+    document.querySelector("#task").innerHTML = taskInput;
     if (currentProblem > 2) {
         extraText.classList.remove("none");
-        document.querySelector("#task").innerHTML = taskInput;
-        document.querySelector("#textInput").value = taskInput;
+        document.querySelector("#textInput").value = taskInput.replaceAll("<br>", "\n");
     } else {
         extraText.classList.add("none");
-        document.querySelector("#task").textContent = taskInput;
     }
     let taskPrompt = tasks[taskID][1];
     document.querySelector("#task-text").innerHTML = taskPrompt;
@@ -150,11 +149,11 @@ function loadTask(taskID) {
 }
 
 const tasks = [
-    ["Hello\nWorld!", "Sett sammen linjene.", ""],
-    ["583\n7486\n124\n46\n5477\n235\n754\n7542\n463\n1235\n7542\n463\n4745\n2356\n43754\n7865\n1274\n7246\n6236\n4442634\n236743634\n2364673625\n246\n6827364", "Adder sammen alle linjene.", ""],
-    ["7 * 16 + 9 - 105\n8 * 6\n250 / 5 - 30\n144 / 12 + 4 * 3\n93 - 48 + 36\n5 + 9\n6 * 15 + 5 - 40\n120 / 10\n132 / 11 + 1 * 4\n7 * 9 + 25\n144 / 12\n62 - 25\n96 / 16 + 4 * 3\n132 / 11 + 9\n77 + 45 - 32\n99 - 88\n6 * 7\n29 * 2 + 16\n250 / 10 * 5\n45 - 28\n9 * 8 + 7 - 63\n132 / 6 - 18\n144 / 18 + 6 * 4\n9 * 12 + 8 - 90\n250 - 100 / 10 * 4\n78 - 34 + 21\n99 - 45 + 11\n45 + 29 - 14\n27 / 3 * 2\n81 / 3\n96 / 12 * 5\n6 * 8 + 33\n132 / 8 + 4 * 6\n72 / 8\n19 + 14\n56 / 7 + 22\n15 * 4 + 22\n81 / 9\n17 * 3 + 40\n7 * 9 + 6 - 50\n3 * 9\n47 + 36 - 19\n18 + 6 * 4\n99 - 33 / 11 * 6\n250 - 50 / 5 + 25\n9 * 4 - 7\n11 * 5\n62 + 37 - 45\n88 / 4 - 19\n144 / 9 + 3 * 2\n33 + 27\n15 + 30 / 5 * 2\n121 / 11 * 3\n25 + 19\n132 / 11 * 4\n99 - 45 / 9 * 7\n13 + 6\n48 / 8 * 3\n10 * 10\n8 * 12 - 30\n200 - 75 + 30\n144 / 12 + 18\n93 - 48 + 36\n23 + 58 - 12\n225 - 125 / 10 * 8\n132 / 11 + 1 * 4\n65 - 30\n144 / 12 + 4 * 3\n78 - 34 + 21\n250 / 5 - 30\n47 + 36 - 19\n200 - 50 / 5 + 18\n27 + 34\n8 * 18 + 2 - 64\n6 * 5 + 17\n99 - 45 + 11\n9 * 4\n132 / 6 - 18\n180 - 90 / 9 * 4\n225 - 75 / 5 + 30\n250 - 50 / 10 * 5\n7 * 14 + 6 - 77\n45 - 28\n8 * 18 + 2 - 64\n72 / 8\n6 * 15 + 5 - 40\n99 - 88\n180 - 60 / 6 * 7\n250 - 50 / 5 + 25\n144 / 18 + 6 * 4\n", "Regn ut hver linje ved å bruke regnerekkefølge. Summer deretter resultatene fra alle linjene.", ""],
+    ["Hello<br>World!", "Sett sammen linjene.", ""],
+    ["583<br>7486<br>124<br>46<br>5477<br>235<br>754<br>7542<br>463<br>1235<br>7542<br>463<br>4745<br>2356<br>43754<br>7865<br>1274<br>7246<br>6236<br>4442634<br>236743634<br>2364673625<br>246<br>6827364", "Adder sammen alle linjene.", ""],
+    ["7 * 16 + 9 - 105<br>8 * 6<br>250 / 5 - 30<br>144 / 12 + 4 * 3<br>93 - 48 + 36<br>5 + 9<br>6 * 15 + 5 - 40<br>120 / 10<br>132 / 11 + 1 * 4<br>7 * 9 + 25<br>144 / 12<br>62 - 25<br>96 / 16 + 4 * 3<br>132 / 11 + 9<br>77 + 45 - 32<br>99 - 88<br>6 * 7<br>29 * 2 + 16<br>250 / 10 * 5<br>45 - 28<br>9 * 8 + 7 - 63<br>132 / 6 - 18<br>144 / 18 + 6 * 4<br>9 * 12 + 8 - 90<br>250 - 100 / 10 * 4<br>78 - 34 + 21<br>99 - 45 + 11<br>45 + 29 - 14<br>27 / 3 * 2<br>81 / 3<br>96 / 12 * 5<br>6 * 8 + 33<br>132 / 8 + 4 * 6<br>72 / 8<br>19 + 14<br>56 / 7 + 22<br>15 * 4 + 22<br>81 / 9<br>17 * 3 + 40<br>7 * 9 + 6 - 50<br>3 * 9<br>47 + 36 - 19<br>18 + 6 * 4<br>99 - 33 / 11 * 6<br>250 - 50 / 5 + 25<br>9 * 4 - 7<br>11 * 5<br>62 + 37 - 45<br>88 / 4 - 19<br>144 / 9 + 3 * 2<br>33 + 27<br>15 + 30 / 5 * 2<br>121 / 11 * 3<br>25 + 19<br>132 / 11 * 4<br>99 - 45 / 9 * 7<br>13 + 6<br>48 / 8 * 3<br>10 * 10<br>8 * 12 - 30<br>200 - 75 + 30<br>144 / 12 + 18<br>93 - 48 + 36<br>23 + 58 - 12<br>225 - 125 / 10 * 8<br>132 / 11 + 1 * 4<br>65 - 30<br>144 / 12 + 4 * 3<br>78 - 34 + 21<br>250 / 5 - 30<br>47 + 36 - 19<br>200 - 50 / 5 + 18<br>27 + 34<br>8 * 18 + 2 - 64<br>6 * 5 + 17<br>99 - 45 + 11<br>9 * 4<br>132 / 6 - 18<br>180 - 90 / 9 * 4<br>225 - 75 / 5 + 30<br>250 - 50 / 10 * 5<br>7 * 14 + 6 - 77<br>45 - 28<br>8 * 18 + 2 - 64<br>72 / 8<br>6 * 15 + 5 - 40<br>99 - 88<br>180 - 60 / 6 * 7<br>250 - 50 / 5 + 25<br>144 / 18 + 6 * 4<br>", "Regn ut hver linje ved å bruke regnerekkefølge. Summer deretter resultatene fra alle linjene.", ""],
     ["", "", ""],
-    ["while true: # Kjører programmet til brukeren manuelt stopper det\n     brukertall == int(input(\"Skriv inn et tall: )) # Får et tall fra brukeren\n\n    function f(x): # Lager en funksjon som tar inn X som en variabel\n        return (x+15*x)/2 # Returnerer et tall basert på X sin verdi\n\n    print(f\"x:{brukertall}; y:{f(brukertall)}\")) # Printer både x og y verdi\n", "Rediger programmet sånn at det ikke inneholder feil.<br>Feilmeldinger:", "Line 2:25 SyntaxError: unterminated string literal (detected at line 2)<br>Line 7:46 SyntaxError: unmatched ')'<br>Line 4:10 SyntaxError: invalid syntax<br>Line 1:8-11 NameError: name 'true' is not defined. Did you mean: 'True'?<br>Line 2:1-10 NameError: name 'brukertall' is not defined<br>"]
+    ["while true: # Kjører programmet til brukeren manuelt stopper det<br>    brukertall == int(input(\"Skriv inn et tall: )) # Får et tall fra brukeren<br><br>    function f(x): # Lager en funksjon som tar inn X som en variabel<br>        return (x+15*x)/2 # Returnerer et tall basert på X sin verdi<br><br>    print(f\"x:{brukertall}; y:{f(brukertall)}\")) # Printer både x og y verdi<br>", "Rediger programmet sånn at det ikke inneholder feil.<br>Feilmeldinger:", "Line 2:25 SyntaxError: unterminated string literal (detected at line 2)<br>Line 7:46 SyntaxError: unmatched ')'<br>Line 4:10 SyntaxError: invalid syntax<br>Line 1:8-11 NameError: name 'true' is not defined. Did you mean: 'True'?<br>Line 2:1-10 NameError: name 'brukertall' is not defined<br>"]
 ]
 
 const textarea = document.querySelector('textarea');
