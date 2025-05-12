@@ -119,7 +119,7 @@ function showToast(message, duration = 3000) {
 // Copy text to clipboard
 copyButton.addEventListener('click', async () => {
     try {
-        await navigator.clipboard.writeText(taskData.innerHTML.replaceAll("<br>", "\n"));
+        await navigator.clipboard.writeText(taskData.innerHTML.replaceAll("<br>", "\n").replaceAll("&nbsp;", " "));
         showToast('Text copied to clipboard!');
     } catch (err) {
         showToast('Failed to copy text', 4000);
