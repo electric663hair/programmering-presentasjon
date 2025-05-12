@@ -20,7 +20,7 @@ let firstChange = true
 
 let seed
 if (!localStorage.getItem("seed")) {
-    localStorage.setItem("seed", Math.random())
+    localStorage.setItem("seed", Math.floor(Math.random() * (65536 + 1)))
 }
 seed = parseFloat(localStorage.getItem("seed"));
 
@@ -106,8 +106,22 @@ subNavBtns.forEach((btn, index) => {
     })
 })
 
+document.querySelector("#btn").addEventListener("click", function() {
+    let newSeed = prompt(`Set new seed, max of 65536\nOld seed is: ${localStorage.getItem("seed")}`)
+    try {
+        newSeed = parseInt(newSeed)
+        if (!isNaN(newSeed) && newSeed >= -65536 && newSeed <= 65536) {
+            localStorage.setItem("seed", newSeed)
+        } else {
+            alert(`Seed of ${newSeed} could not be set, number out of range.`)
+        }
+    } catch (e) {
+        alert(`Could not set ${newSeed} as seed, input is not a number.`)
+    }
+})
+
 // Show toast notification
-function showToast(message, duration = 3000) {
+function showToast(message, duration = 5000) {
     toastMessage.textContent = message;
     toast.classList.add('show');
     
