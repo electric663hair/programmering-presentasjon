@@ -17,6 +17,40 @@ let currentProblem = undefined
 
 let currentCardChange = undefined
 let firstChange = true
+
+let seed
+if (!localStorage.getItem("seed")) {
+    localStorage.setItem("seed", Math.random())
+}
+seed = parseFloat(localStorage.getItem("seed"));
+
+function random(n) {
+    function seedAdd(seed) {
+        const str = seed.toString();
+
+        if (parseFloat(seed) === 0) return 0.1;
+
+        const parts = str.split(".");
+        if (parts.length === 1) return seed + 0.1;
+
+        let decimals = parts[1].replace(/0+$/, ""); // Remove trailing zeros
+        if (decimals.length === 0) return seed + 0.1;
+
+        // Get last one or two digits (but non-zero)
+        const nonZeroDigits = decimals.match(/[1-9]/g);
+        if (!nonZeroDigits) return seed + 0.1;
+
+        const lastDigits = decimals.match(/[1-9][0-9]?$/);
+        const addition = parseFloat("0." + lastDigits[0]);
+
+        return seed + addition;
+    }
+
+    x = Math.sin(seed) * 10000;
+    seed = seedAdd(seed)
+    return Math.floor((x - Math.floor(x)) * n) + 1;
+}
+
 function changeCard() {
     if (firstChange) {
         firstChange = false;
@@ -85,7 +119,7 @@ function showToast(message, duration = 3000) {
 // Copy text to clipboard
 copyButton.addEventListener('click', async () => {
     try {
-        await navigator.clipboard.writeText(taskData.textContent);
+        await navigator.clipboard.writeText(taskData.innerHTML.replaceAll("<br>", "\n"));
         showToast('Text copied to clipboard!');
     } catch (err) {
         showToast('Failed to copy text', 4000);
@@ -94,8 +128,8 @@ copyButton.addEventListener('click', async () => {
 });
 
 function checkInput(text, qID) {
-    const a = [123, 234, 345, 456, 567, 678, 789]
-    if (text = a[qID]) {
+    console.log(text, asnws.values[qID], qID)
+    if (text == asnws.values[qID]) {
         showToast("Correct answer!")
         return true
     }
@@ -135,6 +169,7 @@ function loadTask(taskID) {
     const extraText = document.querySelector("#task-extra-text");
     let taskInput = tasks[taskID][0];
     document.querySelector("#task").innerHTML = taskInput;
+    document.querySelector("#textInput").value = "";
     if (currentProblem > 2) {
         extraText.classList.remove("none");
         document.querySelector("#textInput").value = taskInput.replaceAll("<br>", "\n");
@@ -150,11 +185,99 @@ function loadTask(taskID) {
 
 const tasks = [
     ["Hello<br>World!", "Sett sammen linjene.", ""],
-    ["583<br>7486<br>124<br>46<br>5477<br>235<br>754<br>7542<br>463<br>1235<br>7542<br>463<br>4745<br>2356<br>43754<br>7865<br>1274<br>7246<br>6236<br>4442634<br>236743634<br>2364673625<br>246<br>6827364", "Adder sammen alle linjene.", ""],
-    ["7 * 16 + 9 - 105<br>8 * 6<br>250 / 5 - 30<br>144 / 12 + 4 * 3<br>93 - 48 + 36<br>5 + 9<br>6 * 15 + 5 - 40<br>120 / 10<br>132 / 11 + 1 * 4<br>7 * 9 + 25<br>144 / 12<br>62 - 25<br>96 / 16 + 4 * 3<br>132 / 11 + 9<br>77 + 45 - 32<br>99 - 88<br>6 * 7<br>29 * 2 + 16<br>250 / 10 * 5<br>45 - 28<br>9 * 8 + 7 - 63<br>132 / 6 - 18<br>144 / 18 + 6 * 4<br>9 * 12 + 8 - 90<br>250 - 100 / 10 * 4<br>78 - 34 + 21<br>99 - 45 + 11<br>45 + 29 - 14<br>27 / 3 * 2<br>81 / 3<br>96 / 12 * 5<br>6 * 8 + 33<br>132 / 8 + 4 * 6<br>72 / 8<br>19 + 14<br>56 / 7 + 22<br>15 * 4 + 22<br>81 / 9<br>17 * 3 + 40<br>7 * 9 + 6 - 50<br>3 * 9<br>47 + 36 - 19<br>18 + 6 * 4<br>99 - 33 / 11 * 6<br>250 - 50 / 5 + 25<br>9 * 4 - 7<br>11 * 5<br>62 + 37 - 45<br>88 / 4 - 19<br>144 / 9 + 3 * 2<br>33 + 27<br>15 + 30 / 5 * 2<br>121 / 11 * 3<br>25 + 19<br>132 / 11 * 4<br>99 - 45 / 9 * 7<br>13 + 6<br>48 / 8 * 3<br>10 * 10<br>8 * 12 - 30<br>200 - 75 + 30<br>144 / 12 + 18<br>93 - 48 + 36<br>23 + 58 - 12<br>225 - 125 / 10 * 8<br>132 / 11 + 1 * 4<br>65 - 30<br>144 / 12 + 4 * 3<br>78 - 34 + 21<br>250 / 5 - 30<br>47 + 36 - 19<br>200 - 50 / 5 + 18<br>27 + 34<br>8 * 18 + 2 - 64<br>6 * 5 + 17<br>99 - 45 + 11<br>9 * 4<br>132 / 6 - 18<br>180 - 90 / 9 * 4<br>225 - 75 / 5 + 30<br>250 - 50 / 10 * 5<br>7 * 14 + 6 - 77<br>45 - 28<br>8 * 18 + 2 - 64<br>72 / 8<br>6 * 15 + 5 - 40<br>99 - 88<br>180 - 60 / 6 * 7<br>250 - 50 / 5 + 25<br>144 / 18 + 6 * 4<br>", "Regn ut hver linje ved å bruke regnerekkefølge. Summer deretter resultatene fra alle linjene.", ""],
-    ["", "", ""],
+    ["", "Adder alle linjene.", ""],
+    ["", "Regn ut hver linje ved å bruke regnerekkefølge. Summer deretter resultatet fra alle linjene sammen.", ""],
+    ["def kommenter_farge(farge)<br>    if farge = \"blå\":<br>        print(\"Blå er en rolig og fin farge!\")<br>    elif farge == \"rød\"<br>        print(\"Rød er en energisk farge!\"<br>    else<br>        print(\"Det er også en flott farge.\")<br><br>brukerfarge = input(\"Hva er favorittfargen din? \")<br>kommenter_farge(brukerfarge)", "Rediger programmet sånn at det ikke inneholder feil.<br>Feilmeldinger:", "Line 1:26 SyntaxError: expected ':'<br>Line 2:4-16 SyntaxError: invalid syntax. Maybe you meant '==' or ':=' instead of '='?<br>Line 4:20 SyntaxError: expected ':'<br>Line 5:35 SyntaxError: '(' was never closed<br>Line 6:5 SyntaxError: expected ':'<br>"],
     ["while true: # Kjører programmet til brukeren manuelt stopper det<br>    brukertall == int(input(\"Skriv inn et tall: )) # Får et tall fra brukeren<br><br>    function f(x): # Lager en funksjon som tar inn X som en variabel<br>        return (x+15*x)/2 # Returnerer et tall basert på X sin verdi<br><br>    print(f\"x:{brukertall}; y:{f(brukertall)}\")) # Printer både x og y verdi<br>", "Rediger programmet sånn at det ikke inneholder feil.<br>Feilmeldinger:", "Line 2:25 SyntaxError: unterminated string literal (detected at line 2)<br>Line 7:46 SyntaxError: unmatched ')'<br>Line 4:10 SyntaxError: invalid syntax<br>Line 1:8-11 NameError: name 'true' is not defined. Did you mean: 'True'?<br>Line 2:1-10 NameError: name 'brukertall' is not defined<br>"]
 ]
+
+let asnws = {
+    values : [
+        "Hello World!",
+        "",
+        "",
+        "",
+        `while True: # Kjører programmet til brukeren manuelt stopper det\n    brukertall = int(input("Skriv inn et tall: ")) # Får et tall fra brukeren\n    \n    def f(x): # Lager en funksjon som tar inn X som en variabel\n        return (x+15*x)/2 # Returnerer et tall basert på X sin verdi\n\n    print(f"x:{brukertall}; y:{f(brukertall)}") # Printer både x og y verdi`
+    ]
+}
+
+for (let i = 0; i<75; i++) {
+    tasks[1][0] += random(1000000) + "<br/>"
+}
+
+for (let i = 0; i<75; i++) {
+    let x = random(5) - 1
+
+    if (x == 0) {
+        tasks[2][0] += `${random(150) + 100} + ${random(150) + 100} - ${random(100)}`
+        
+    } else if (x == 1) {
+        tasks[2][0] += `${random(100000)} + ${random(1000)} + ${random(10000)}`
+        
+    } else if (x == 2) {
+        let x = [random(10000), random(10000)]
+        tasks[2][0] += `${Math.max(x[0], x[1])} - ${Math.min(x[0], x[1])}`
+        
+    } else if (x == 3) {
+        tasks[2][0] += `${random(100000)} / ${random(1000)} + ${random(10000)} * ${random(1000)} - ${random(1000)}`
+
+    } else if (x == 4) {
+        tasks[2][0] += `${random(1000000000)} * ${random(10000)} / ${random(10000)} / ${random(1000)} - ${random(10000)} + ${random(100000)}`
+
+    }
+
+    tasks[2][0] += "<br/>"
+}
+
+asnws.values[1] = task1();
+asnws.values[2] = task2();
+
+function task1() {
+    let total = 0;
+    const expressions = tasks[1][0].split("<br/>")
+
+    for (const line of expressions) {
+        if (!line.trim()) {
+            continue;
+        }
+
+        try {
+            if (!isNaN(line)) {
+                total += parseFloat(line);
+            } else {
+                console.warn(`Invalid result from expression: "${line}"`);
+            }
+        } catch (e) {
+            console.error(`Failed to evaluate expression: "${line}" - ${e.message}`);
+        }
+    }
+
+    return total
+}
+
+function task2() {
+    let total = 0;
+    const expressions = tasks[2][0].split("<br/>")
+
+    for (const expr of expressions) {
+        if (!expr.trim()) {
+            continue;
+        }
+
+        try {
+            const result = eval(expr);
+            if (typeof result === 'number' && !isNaN(result)) {
+                total += result;
+            } else {
+                console.warn(`Invalid result from expression: "${expr}"`);
+            }
+        } catch (e) {
+            console.error(`Failed to evaluate expression: "${expr}" - ${e.message}`);
+        }
+    }
+
+    return total
+}
 
 const textarea = document.querySelector('textarea');
 textarea.addEventListener("input", function() {
